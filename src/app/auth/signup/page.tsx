@@ -1,9 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+
+interface LocationData {
+  city: string
+  state: string
+  country: string
+  lat: number | null
+  lng: number | null
+  source: string
+}
 
 export default function SignupPage() {
   const [email, setEmail] = useState('')
@@ -13,8 +22,33 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [detectedLocation, setDetectedLocation] = useState<LocationData | null>(null)
   const router = useRouter()
   const supabase = createClient()
+
+  // Detect location on component mount
+  useEffect(() => {
+    const detectLocation = async () => {
+      try {
+        const res = await fetch('/api/location/detect')
+        const data = await res.json()
+        setDetectedLocation(data)
+      } catch (err) {
+        console.error('Location detection failed:', err)
+        // Set default if detection fails
+        setDetectedLocation({
+          city: 'Other',
+          state: '',
+          country: 'India',
+          lat: null,
+          lng: null,
+          source: 'fallback',
+        })
+      }
+    }
+
+    detectLocation()
+  }, [])
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,6 +83,19 @@ export default function SignupPage() {
       if (signupError) throw signupError
 
       if (data.user) {
+        // Update profile with detected location
+        if (detectedLocation) {
+          await supabase
+            .from('profiles')
+            .update({
+              detected_city: detectedLocation.city,
+              detected_state: detectedLocation.state,
+              location_lat: detectedLocation.lat,
+              location_lng: detectedLocation.lng,
+            })
+            .eq('id', data.user.id)
+        }
+
         setSuccess(true)
         // If email confirmation is disabled, redirect to dashboard
         if (data.user.identities?.length === 0) {

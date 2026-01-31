@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/Navbar'
+import Link from 'next/link'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -45,9 +46,11 @@ export default async function DashboardPage() {
 
           <div className="bg-coral border-brutal shadow-brutal rounded-lg p-6 text-white">
             <h3 className="text-xl font-bold mb-2">Quick Actions</h3>
-            <button className="w-full mt-4 px-4 py-2 bg-white text-coral font-bold rounded-lg border-brutal shadow-brutal hover:shadow-brutal-lg btn-lift">
-              Create Community
-            </button>
+            <Link href="/dashboard/communities/new">
+              <button className="w-full mt-4 px-4 py-2 bg-white text-coral font-bold rounded-lg border-brutal shadow-brutal hover:shadow-brutal-lg btn-lift">
+                Create Community
+              </button>
+            </Link>
           </div>
         </div>
 
