@@ -1,0 +1,19 @@
+{
+  "allowedCommands": {
+    "npm": true,
+    "git": true,
+    "node": true,
+    "npx": true,
+    "pnpm": true,
+    "yarn": true,
+    "mkdir": true,
+    "touch": true,
+    "supabase": true
+  },
+  "allowWrite": {
+    "**/*": true
+  },
+  "allowRead": {
+    "**/*": true
+  }
+}
