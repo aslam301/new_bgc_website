@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 // POST /api/communities/[slug]/follow - Follow a community
 export async function POST(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   const supabase = await createClient()
 
@@ -17,7 +17,7 @@ export async function POST(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { slug } = params
+  const { slug } = await params
 
   // Get community by slug
   const { data: community, error: communityError } = await supabase
@@ -61,7 +61,7 @@ export async function POST(
 // DELETE /api/communities/[slug]/follow - Unfollow a community
 export async function DELETE(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   const supabase = await createClient()
 
@@ -74,7 +74,7 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { slug } = params
+  const { slug } = await params
 
   // Get community by slug
   const { data: community, error: communityError } = await supabase

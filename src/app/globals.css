@@ -4,34 +4,43 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
+    --background: 60 30% 98%;    /* Warm off-white */
+    --foreground: 0 0% 5%;       /* Deep black */
 
-    /* NeoBrutalism Vibrant Palette */
-    --coral: 14 100% 65%;      /* #FF6B6B - Vibrant coral red */
-    --sunny: 45 100% 55%;      /* #FFB800 - Bright sunny yellow */
-    --grape: 280 65% 60%;      /* #B565E0 - Rich grape purple */
-    --mint: 160 60% 50%;       /* #33CC99 - Fresh mint green */
-    --sky: 200 100% 60%;       /* #33A3FF - Bright sky blue */
-    --ink: 0 0% 10%;           /* #1A1A1A - Deep ink black */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    --primary: 350 90% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 100% 55%;
+    --secondary-foreground: 0 0% 5%;
+
+    --muted: 60 10% 92%;
+    --muted-foreground: 0 0% 30%;
+
+    --accent: 260 85% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 350 90% 55%;
+
+    --radius: 0.25rem;           /* Smaller radius for brutalism */
+
+    /* Vibrant palette (from template) */
+    --coral: 350 90% 55%;        /* Coral red */
+    --sunny: 45 100% 55%;        /* Sunny yellow */
+    --grape: 260 85% 60%;        /* Grape purple */
+    --mint: 165 70% 50%;         /* Mint green */
+    --sky: 200 95% 55%;          /* Sky blue */
+    --ink: 0 0% 5%;              /* Deep ink black */
   }
 
   .dark {
@@ -61,8 +70,18 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'Space Mono', monospace;
   }
 }
 
@@ -101,18 +120,66 @@
   }
 
   .btn-lift {
-    @apply transition-all duration-200;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .btn-lift:hover {
-    transform: translate(-2px, -2px);
-  }
-
-  .btn-lift:active {
-    transform: translate(2px, 2px);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px -10px hsl(var(--ink) / 0.2);
   }
 
   .border-brutal {
     @apply border-2 border-ink;
   }
+}
+
+/* Artistic background pattern */
+.art-bg {
+  background:
+    linear-gradient(135deg, hsl(var(--sunny) / 0.1) 0%, transparent 40%),
+    linear-gradient(225deg, hsl(var(--coral) / 0.08) 0%, transparent 50%),
+    linear-gradient(315deg, hsl(var(--grape) / 0.06) 0%, transparent 60%),
+    hsl(var(--background));
+}
+
+/* Card tilt effect */
+.card-tilt {
+  transition: transform 0.3s ease;
+}
+
+.card-tilt:hover {
+  transform: perspective(1000px) rotateX(-2deg) rotateY(2deg);
+}
+
+/* Slide-up animation */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+/* Floating animation for decorative shapes */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Platform footer gradient */
+.platform-bar-light {
+  background: linear-gradient(180deg, transparent 0%, hsl(var(--background) / 0.95) 40%);
+  backdrop-filter: blur(8px);
 }

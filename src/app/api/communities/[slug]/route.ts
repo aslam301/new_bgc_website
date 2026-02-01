@@ -4,10 +4,10 @@ import { NextResponse } from 'next/server'
 // GET /api/communities/[slug] - Get community by slug
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   const supabase = await createClient()
-  const { slug } = params
+  const { slug } = await params
 
   const { data: community, error } = await supabase
     .from('communities')
@@ -36,7 +36,7 @@ export async function GET(
 // PATCH /api/communities/[slug] - Update community
 export async function PATCH(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   const supabase = await createClient()
 
@@ -49,7 +49,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { slug } = params
+  const { slug } = await params
 
   // Check if user is admin of this community
   const { data: community } = await supabase

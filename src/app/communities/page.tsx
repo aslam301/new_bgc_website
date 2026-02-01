@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Navbar } from '@/components/Navbar'
 import { CommunityCard } from '@/components/CommunityCard'
 import { useAuth } from '@/contexts/AuthContext'
+import { Search, Filter } from 'lucide-react'
 
 const INDIAN_CITIES = [
   'All Cities',
@@ -111,52 +112,68 @@ export default function CommunitiesPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-sunny p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen art-bg relative overflow-hidden">
+        {/* Decorative shapes */}
+        <div className="absolute top-40 right-10 w-40 h-40 bg-sunny/15 -rotate-12 -z-10 animate-float" />
+        <div className="absolute bottom-40 -left-16 w-32 h-32 bg-grape/10 rotate-45 -z-10 animate-float" style={{ animationDelay: '3s' }} />
+
+        <div className="max-w-7xl mx-auto p-8">
           {/* Header */}
-          <div className="bg-white border-brutal shadow-brutal rounded-lg p-8 mb-6">
-            <h1 className="text-3xl font-bold mb-2">Discover Communities</h1>
-            <p className="text-gray-600">Find board game communities in your city</p>
+          <div className="bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--ink))] p-8 mb-6 animate-slide-up">
+            <h1 className="text-3xl font-black mb-2 text-ink uppercase tracking-tight">Discover Communities</h1>
+            <p className="text-muted-foreground">Find board game communities in your city</p>
           </div>
 
           {/* Filters */}
-          <div className="bg-white border-brutal shadow-brutal rounded-lg p-6 mb-6">
+          <div className="bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--ink))] p-6 mb-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search */}
               <div className="md:col-span-1">
-                <label className="block text-sm font-bold mb-2">Search</label>
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search communities..."
-                  className="w-full px-4 py-3 border-brutal rounded-lg focus:outline-none focus:ring-2 focus:ring-coral"
-                />
+                <label className="block text-xs font-black mb-2 uppercase tracking-wider text-muted-foreground">
+                  Search
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search communities..."
+                    className="w-full px-4 py-3 pl-10 border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+                </div>
               </div>
 
               {/* City Filter */}
               <div>
-                <label className="block text-sm font-bold mb-2">City</label>
-                <select
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full px-4 py-3 border-brutal rounded-lg focus:outline-none focus:ring-2 focus:ring-coral"
-                >
-                  {INDIAN_CITIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
+                <label className="block text-xs font-black mb-2 uppercase tracking-wider text-muted-foreground">
+                  City
+                </label>
+                <div className="relative">
+                  <select
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full px-4 py-3 pl-10 border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral appearance-none"
+                  >
+                    {INDIAN_CITIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={16} />
+                </div>
               </div>
 
               {/* Sort */}
               <div>
-                <label className="block text-sm font-bold mb-2">Sort By</label>
+                <label className="block text-xs font-black mb-2 uppercase tracking-wider text-muted-foreground">
+                  Sort By
+                </label>
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="w-full px-4 py-3 border-brutal rounded-lg focus:outline-none focus:ring-2 focus:ring-coral"
+                  className="w-full px-4 py-3 border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral"
                 >
                   {SORT_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -171,28 +188,33 @@ export default function CommunitiesPage() {
           {/* Results */}
           {loading ? (
             <div className="text-center py-12">
-              <div className="text-4xl mb-4">⏳</div>
-              <p className="text-gray-600">Loading communities...</p>
+              <div className="text-4xl mb-4 animate-pulse">🎲</div>
+              <p className="text-muted-foreground font-mono text-xs uppercase tracking-wider">Loading communities...</p>
             </div>
           ) : communities.length === 0 ? (
-            <div className="bg-white border-brutal shadow-brutal rounded-lg p-12 text-center">
+            <div className="bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--sunny))] p-12 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold mb-2">No communities found</h3>
-              <p className="text-gray-600">Try adjusting your search or filters</p>
+              <h3 className="text-xl font-black mb-2 text-ink uppercase">No communities found</h3>
+              <p className="text-muted-foreground">Try adjusting your search or filters</p>
             </div>
           ) : (
             <>
-              <div className="mb-4 text-gray-600">
+              <div className="mb-4 font-mono text-xs uppercase tracking-wider text-muted-foreground">
                 Found {communities.length} {communities.length === 1 ? 'community' : 'communities'}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {communities.map((community) => (
-                  <CommunityCard
+                {communities.map((community, index) => (
+                  <div
                     key={community.id}
-                    community={community}
-                    isFollowing={!!followingMap[community.id]}
-                    onFollowChange={(following) => handleFollowChange(community.id, following)}
-                  />
+                    className="animate-slide-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <CommunityCard
+                      community={community}
+                      isFollowing={!!followingMap[community.id]}
+                      onFollowChange={(following) => handleFollowChange(community.id, following)}
+                    />
+                  </div>
                 ))}
               </div>
             </>

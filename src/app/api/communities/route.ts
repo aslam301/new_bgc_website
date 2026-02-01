@@ -65,6 +65,32 @@ export async function POST(request: Request) {
   }
 
   try {
+    // Ensure profile exists (create if missing)
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile) {
+      // Profile doesn't exist, create it
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: user.id,
+          email: user.email,
+          full_name: user.user_metadata?.full_name || user.email,
+        })
+
+      if (profileError) {
+        console.error('Profile creation error:', profileError)
+        return NextResponse.json(
+          { error: 'Failed to create user profile. Please try logging out and back in.' },
+          { status: 500 }
+        )
+      }
+    }
+
     const body = await request.json()
     const { name, slug, description, city, state, logo_url, accent_color, whatsapp_url, instagram_url, discord_url, website_url } = body
 
