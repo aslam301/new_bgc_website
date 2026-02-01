@@ -8,6 +8,8 @@ const nextConfig = {
       },
     ],
   },
-};
+  // Empty turbopack config to silence warning
+  turbopack: {},
+}
 
-export default nextConfig;
+export default nextConfig

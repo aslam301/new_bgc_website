@@ -4,7 +4,7 @@ import { headers } from 'next/headers'
 // GET /api/location/detect - Detect location from IP address
 export async function GET() {
   try {
-    const headersList = headers()
+    const headersList = await headers()
 
     // Try to get IP from various headers (Vercel, Cloudflare, etc.)
     const forwarded = headersList.get('x-forwarded-for')

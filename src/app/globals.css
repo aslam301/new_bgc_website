@@ -74,10 +74,31 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Outfit', sans-serif;
+    font-size: 14px;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
     font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+
+  h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 800;
+  }
+
+  h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
   }
 
   .font-mono {

@@ -116,7 +116,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Create community
+    // Create community (trigger will handle admin and follower records)
     const { data: community, error: createError } = await supabase
       .from('communities')
       .insert({
@@ -132,7 +132,7 @@ export async function POST(request: Request) {
         discord_url,
         website_url,
         created_by: user.id,
-        follower_count: 1, // Admin auto-follows
+        // Don't set follower_count - let trigger handle it (starts at 1, then trigger increments)
       })
       .select()
       .single()
@@ -141,31 +141,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: createError.message }, { status: 500 })
     }
 
-    // Create admin record (also handled by trigger, but explicit is better)
-    const { error: adminError } = await supabase
-      .from('community_admins')
-      .insert({
-        community_id: community.id,
-        user_id: user.id,
-        role: 'owner',
-      })
-
-    if (adminError) {
-      // Log but don't fail (trigger might have created it)
-      console.error('Admin creation error:', adminError)
-    }
-
-    // Create follower record (admin auto-follows)
-    const { error: followError } = await supabase
-      .from('community_followers')
-      .insert({
-        community_id: community.id,
-        user_id: user.id,
-      })
-
-    if (followError) {
-      console.error('Auto-follow error:', followError)
-    }
+    // Trigger automatically creates:
+    // 1. community_admins record (owner)
+    // 2. community_followers record (auto-follow)
+    // 3. Updates follower_count via trigger
 
     return NextResponse.json({ community }, { status: 201 })
   } catch (error) {

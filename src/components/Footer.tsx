@@ -20,7 +20,7 @@ export function Footer() {
             <h4 className="font-bold mb-3">Platform</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/communities" className="text-gray-300 hover:text-coral transition-colors">
+                <Link href="/discover" className="text-gray-300 hover:text-coral transition-colors">
                   Discover Communities
                 </Link>
               </li>
