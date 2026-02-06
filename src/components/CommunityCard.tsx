@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { MapPin, Users, Calendar, Gamepad2, ArrowUpRight } from 'lucide-react'
+import { MapPin, Users, Calendar, Gamepad2, ArrowUpRight, Heart } from 'lucide-react'
 
 interface Community {
   id: string
@@ -60,12 +60,30 @@ export function CommunityCard({ community, isFollowing: initialFollowing, onFoll
 
   return (
     <Link href={`/c/${community.slug}`} className="block">
-      <div className="bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--ink))] hover:shadow-[6px_6px_0_0_hsl(var(--ink))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all h-full flex flex-col">
+      <div className="relative bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--ink))] hover:shadow-[6px_6px_0_0_hsl(var(--ink))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all h-full flex flex-col">
         {/* Accent color top border */}
         <div
           className="h-2 border-b-2 border-ink"
           style={{ backgroundColor: community.accent_color || '#FF6B6B' }}
         />
+
+        {/* Heart Icon - Top Right */}
+        <button
+          onClick={handleFollow}
+          disabled={loading}
+          className={`absolute top-3 right-3 p-1.5 rounded-full transition-all duration-200 z-10 ${
+            isFollowing
+              ? 'bg-coral border-2 border-ink shadow-[2px_2px_0_0_hsl(var(--ink))] hover:shadow-[3px_3px_0_0_hsl(var(--ink))]'
+              : 'bg-white border-2 border-coral shadow-[2px_2px_0_0_hsl(var(--coral))] hover:shadow-[3px_3px_0_0_hsl(var(--coral))]'
+          } disabled:opacity-50 hover:-translate-x-0.5 hover:-translate-y-0.5`}
+        >
+          <Heart
+            size={16}
+            strokeWidth={2.5}
+            fill={isFollowing ? "white" : "none"}
+            className={isFollowing ? "text-white" : "text-coral"}
+          />
+        </button>
 
         <div className="p-5 flex-1 flex flex-col">
           {/* Header */}
@@ -81,7 +99,7 @@ export function CommunityCard({ community, isFollowing: initialFollowing, onFoll
                 🎲
               </div>
             )}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 pr-6">
               <h3 className="text-base font-black mb-1 text-ink uppercase tracking-tight line-clamp-2">
                 {community.name}
               </h3>
@@ -96,7 +114,7 @@ export function CommunityCard({ community, isFollowing: initialFollowing, onFoll
           </div>
 
           {/* Stats - Compact */}
-          <div className="mb-3 flex items-center gap-2 text-[10px] font-mono text-muted-foreground">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground">
             <span className="font-black text-ink">{community.follower_count || 0}</span>
             <span>Followers</span>
             <span className="text-border">•</span>
@@ -106,20 +124,6 @@ export function CommunityCard({ community, isFollowing: initialFollowing, onFoll
             <span className="font-black text-ink">{community.games_count || 0}</span>
             <span>Games</span>
           </div>
-
-          {/* Follow Button */}
-          <button
-            onClick={handleFollow}
-            disabled={loading}
-            className={`w-full px-3 py-2.5 font-bold text-xs uppercase tracking-wider transition-all duration-200 btn-lift border-2 border-ink flex items-center justify-center gap-2 ${
-              isFollowing
-                ? 'bg-muted text-ink shadow-[2px_2px_0_0_hsl(var(--ink))] hover:shadow-[3px_3px_0_0_hsl(var(--ink))]'
-                : 'bg-coral text-white shadow-[2px_2px_0_0_hsl(var(--ink))] hover:shadow-[3px_3px_0_0_hsl(var(--ink))]'
-            } disabled:opacity-50`}
-          >
-            <Users size={12} strokeWidth={2.5} />
-            <span>{loading ? '...' : isFollowing ? 'Following' : 'Follow'}</span>
-          </button>
         </div>
       </div>
     </Link>

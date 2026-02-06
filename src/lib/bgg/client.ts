@@ -24,7 +24,9 @@ async function fetchWithRetry(
     try {
       const response = await fetch(url, {
         headers: {
-          'User-Agent': 'BoardGameCulture/1.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+          'Accept': 'application/xml,text/html,application/xhtml+xml,*/*;q=0.9',
+          'Accept-Language': 'en-US,en;q=0.9',
         },
       })
 

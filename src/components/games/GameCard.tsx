@@ -33,9 +33,9 @@ export default function GameCard({
       : null
 
   const content = (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full flex flex-col">
+    <div className="bg-card border-2 border-ink shadow-[4px_4px_0_0_hsl(var(--ink))] hover:shadow-[6px_6px_0_0_hsl(var(--ink))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all h-full flex flex-col">
       {/* Game Image */}
-      <div className="aspect-square bg-gray-100 relative">
+      <div className="aspect-square bg-muted relative">
         {game.thumbnail_url || game.image_url ? (
           <img
             src={game.thumbnail_url || game.image_url || ''}
@@ -43,8 +43,8 @@ export default function GameCard({
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
-            <Users className="w-16 h-16" />
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            <Users className="w-16 h-16" strokeWidth={2} />
           </div>
         )}
 
@@ -57,35 +57,35 @@ export default function GameCard({
       </div>
 
       {/* Game Info */}
-      <div className="p-4 flex-1 flex flex-col">
-        <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1">
+      <div className="p-3 md:p-4 flex-1 flex flex-col border-t-2 border-ink">
+        <h3 className="font-black text-sm md:text-base text-ink line-clamp-2 mb-1 uppercase tracking-tight">
           {game.name}
         </h3>
 
         {game.year_published && (
-          <p className="text-sm text-gray-500 mb-2">{game.year_published}</p>
+          <p className="text-xs font-mono text-muted-foreground mb-2">{game.year_published}</p>
         )}
 
-        <div className="flex items-center gap-3 text-sm text-gray-600 mt-auto">
+        <div className="flex items-center gap-2 md:gap-3 text-xs font-mono text-muted-foreground mt-auto">
           {playerCount && (
             <div className="flex items-center gap-1">
-              <Users className="w-4 h-4" />
-              <span>{playerCount}</span>
+              <Users className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
+              <span className="font-black text-ink">{playerCount}</span>
             </div>
           )}
 
           {playtime && (
             <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{playtime}</span>
+              <Clock className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
+              <span className="font-black text-ink">{playtime}</span>
             </div>
           )}
         </div>
 
         {communityGame?.times_played !== undefined &&
           communityGame.times_played > 0 && (
-            <div className="mt-2 text-xs text-gray-500">
-              Played {communityGame.times_played} times
+            <div className="mt-2 text-[10px] font-mono text-muted-foreground">
+              Played <span className="font-black text-ink">{communityGame.times_played}</span> times
             </div>
           )}
       </div>

@@ -44,17 +44,29 @@ export async function POST(
       )
     }
 
-    // Check if user is admin
-    const { data: isAdmin } = await supabase.rpc('is_community_admin', {
-      p_community_id: community.id,
-      p_user_id: user.id,
-    })
+    // Check if user is admin or super admin
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
 
-    if (!isAdmin) {
-      return NextResponse.json(
-        { error: 'You must be a community admin to sync BGG collection' },
-        { status: 403 }
-      )
+    const isSuperAdmin = profile?.role === 'super_admin' || profile?.role === 'admin'
+
+    if (!isSuperAdmin) {
+      const { data: isAdmin } = await supabase
+        .from('community_admins')
+        .select('id')
+        .eq('community_id', community.id)
+        .eq('user_id', user.id)
+        .single()
+
+      if (!isAdmin) {
+        return NextResponse.json(
+          { error: 'You must be a community admin to sync BGG collection' },
+          { status: 403 }
+        )
+      }
     }
 
     // Create sync job
@@ -152,14 +164,18 @@ async function processBGGSync(
   bggUsername: string,
   userId: string
 ) {
+  console.log(`[BGG Sync] Starting sync for job ${jobId}, username: ${bggUsername}`)
   const supabase = await createClient()
 
   try {
     // Update status to processing
+    console.log(`[BGG Sync] Updating job status to processing`)
     await supabase
       .from('bgg_sync_jobs')
       .update({ status: 'processing' })
       .eq('id', jobId)
+
+    console.log(`[BGG Sync] Fetching collection from BGG...`)
 
     // Fetch BGG collection
     const collection = await fetchCollection(bggUsername)

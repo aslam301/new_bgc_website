@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Gamepad2 } from 'lucide-react'
 import type { Game, GameFilters as GameFiltersType } from '@/types/games'
 import GameGrid from '@/components/games/GameGrid'
 import GameFilters from '@/components/games/GameFilters'
@@ -46,36 +46,37 @@ export default function GamesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-gray-900">Browse Games</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="bg-card border-b-2 border-ink">
+        <div className="max-w-7xl mx-auto p-3 md:p-6">
+          <h1 className="text-2xl md:text-3xl font-black text-ink mb-1 uppercase tracking-tight">Browse Games</h1>
+          <p className="text-xs md:text-sm text-muted-foreground font-mono">
             Explore board games in the BoardGameCulture collection
           </p>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto p-3 md:p-6">
         {/* Filters */}
-        <div className="mb-8">
+        <div className="mb-4 md:mb-6">
           <GameFilters onFilterChange={setFilters} />
         </div>
 
         {/* Games Grid */}
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="text-4xl mb-4 animate-pulse">🎲</div>
+            <p className="text-muted-foreground font-mono text-xs uppercase tracking-wider">Loading games...</p>
           </div>
         ) : error ? (
-          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg">
+          <div className="bg-coral/10 border-2 border-coral text-coral px-4 py-3 font-bold text-sm">
             {error}
           </div>
         ) : (
           <>
-            <div className="mb-4 text-sm text-gray-600">
+            <div className="mb-3 font-mono text-xs uppercase tracking-wider text-muted-foreground">
               {games.length} {games.length === 1 ? 'game' : 'games'} found
             </div>
             <GameGrid

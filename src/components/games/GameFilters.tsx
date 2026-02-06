@@ -33,16 +33,16 @@ export default function GameFilters({
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 md:space-y-4">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" strokeWidth={2.5} />
         <input
           type="text"
           placeholder="Search games..."
           value={filters.search || ''}
           onChange={(e) => updateFilters({ search: e.target.value })}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="w-full pl-9 md:pl-10 pr-3 md:pr-4 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
         />
       </div>
 
@@ -50,12 +50,12 @@ export default function GameFilters({
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-2 px-3 md:px-4 py-2 border-2 border-ink bg-card shadow-[3px_3px_0_0_hsl(var(--ink))] hover:shadow-[4px_4px_0_0_hsl(var(--ink))] btn-lift transition-all font-bold text-xs md:text-sm uppercase tracking-wide"
         >
-          <Filter className="w-4 h-4" />
+          <Filter className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
           <span>Filters</span>
           {hasActiveFilters && (
-            <span className="bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full">
+            <span className="bg-coral text-white text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 border border-ink font-black uppercase">
               Active
             </span>
           )}
@@ -64,9 +64,9 @@ export default function GameFilters({
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-1 text-xs md:text-sm font-bold text-muted-foreground hover:text-coral transition-colors uppercase tracking-wide"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
             Clear all
           </button>
         )}
@@ -74,11 +74,11 @@ export default function GameFilters({
 
       {/* Filter Panel */}
       {isOpen && (
-        <div className="border border-gray-200 rounded-lg p-4 space-y-4 bg-gray-50">
+        <div className="border-2 border-ink p-3 md:p-4 space-y-3 md:space-y-4 bg-card shadow-[3px_3px_0_0_hsl(var(--ink))]">
           {/* Status Filter */}
           {showStatusFilter && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Status
               </label>
               <select
@@ -88,7 +88,7 @@ export default function GameFilters({
                     status: e.target.value as any || undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
               >
                 <option value="">All</option>
                 <option value="own">Own</option>
@@ -100,9 +100,9 @@ export default function GameFilters({
           )}
 
           {/* Player Count */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2 md:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Min Players
               </label>
               <input
@@ -117,13 +117,13 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
                 placeholder="1"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Max Players
               </label>
               <input
@@ -138,16 +138,16 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
                 placeholder="4"
               />
             </div>
           </div>
 
           {/* Playtime */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2 md:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Min Playtime (min)
               </label>
               <input
@@ -162,13 +162,13 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
                 placeholder="30"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Max Playtime (min)
               </label>
               <input
@@ -183,16 +183,16 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
                 placeholder="120"
               />
             </div>
           </div>
 
           {/* Complexity */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2 md:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Min Complexity
               </label>
               <select
@@ -204,7 +204,7 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
               >
                 <option value="">Any</option>
                 <option value="1">1 - Light</option>
@@ -216,7 +216,7 @@ export default function GameFilters({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs md:text-sm font-black mb-1 md:mb-2 uppercase tracking-wide text-muted-foreground">
                 Max Complexity
               </label>
               <select
@@ -228,7 +228,7 @@ export default function GameFilters({
                       : undefined,
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3 py-2 text-xs md:text-sm border-2 border-ink rounded focus:outline-none focus:ring-2 focus:ring-coral font-mono"
               >
                 <option value="">Any</option>
                 <option value="1">1 - Light</option>
